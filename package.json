@@ -1,0 +1,24 @@
+{
+  "name": "tweetcloud",
+  "version": "1.0.0",
+  "description": "a Three.js based twitter stream visualization experiment",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MichaelHazani/tweetcloud.git"
+  },
+  "keywords": [
+    "threejs",
+    "twitter",
+    "stream"
+  ],
+  "author": "Michael Hazani",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MichaelHazani/tweetcloud/issues"
+  },
+  "homepage": "https://github.com/MichaelHazani/tweetcloud#readme"
+}
