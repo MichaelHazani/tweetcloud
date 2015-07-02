@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/MichaelHazani/tweetcloud/issues"
   },
-  "homepage": "https://github.com/MichaelHazani/tweetcloud#readme"
+  "homepage": "https://github.com/MichaelHazani/tweetcloud#readme",
+  "dependencies": {
+    "user-stream": "0.0.7"
+  }
 }
