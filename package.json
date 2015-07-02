@@ -22,6 +22,10 @@
   },
   "homepage": "https://github.com/MichaelHazani/tweetcloud#readme",
   "dependencies": {
-    "user-stream": "0.0.7"
+    "express": "^4.13.0",
+    "node-twitter": "^0.5.2"
+  },
+  "devDependencies": {
+    "supervisor": "^0.7.0"
   }
 }
