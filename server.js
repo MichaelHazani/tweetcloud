@@ -1,19 +1,12 @@
 'use strict';
 
 var express = require('express');
+var keys = require('./secrets.js');
 var app = express();
 var port = process.env.PORT || 3000;
 
 var Twitter = require('node-twitter');
 
-var twitterStreamClient = new Twitter.StreamClient(
-  'wrNczJOfwAVb5g7UdOENTEgK0',
-  'XwKCnpTfZKASNaGUWUT3wtCcTcTtLiHNpXN1F0YcfgT',
-  '3124478422-6puXKn7aPN69LJQzYXfsexHt9NBi9rsNAZyOM61',
-  'pE9blQ7F6NMkbAY6bFAnUW7ExN2rKVrhszu44OHnk8nRo'
-  );
-
-// twitterStreamClient.start(['baseball', 'basketball', 'football', 'hockey']);
 
 
 app.use(express.static('app'));
@@ -27,5 +20,28 @@ app.get('/', function(req, res) {
 
 });
 
+var twitterStreamClient = new Twitter.StreamClient(
+  keys.consumerKey, keys.consumerSecret, keys.token, keys.tokenSecret
+  );
+twitterStreamClient.on('close', function() {
+    console.log('Connection closed.');
+});
+twitterStreamClient.on('end', function() {
+    console.log('End of Line.');
+});
+twitterStreamClient.on('error', function(error) {
+    console.log('Error: ' + (error.code ? error.code + ' ' + error.message : error.message));
+});
+twitterStreamClient.on('deleteLocation', function(data) {
+    console.log(data);
+});
+
+twitterStreamClient.start(['baseball', 'basketball', 'football', 'hockey']);
+console.log(twitterStreamClient);
+
+twitterStreamClient.on('tweet', function(tweet) {
+  var thisTweet = tweet.text;
+  console.log(thisTweet);
+});
 
 
