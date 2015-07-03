@@ -36,7 +36,7 @@ twitterStreamClient.on('deleteLocation', function(data) {
     console.log(data);
 });
 
-twitterStreamClient.start(['baseball', 'basketball', 'football', 'hockey']);
+twitterStreamClient.start(['music']);
 console.log(twitterStreamClient);
 
 twitterStreamClient.on('tweet', function(tweet) {
