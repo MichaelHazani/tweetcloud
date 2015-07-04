@@ -6,7 +6,10 @@ var app = express();
 var port = process.env.PORT || 3000;
 
 var Twitter = require('node-twitter');
+var bodyparser = require('body-parser');
 
+app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({extended: true}));
 
 
 app.use(express.static('app'));
@@ -37,11 +40,12 @@ twitterStreamClient.on('deleteLocation', function(data) {
 });
 
 twitterStreamClient.start(['music']);
-console.log(twitterStreamClient);
+// console.log(twitterStreamClient);
 
 twitterStreamClient.on('tweet', function(tweet) {
   var thisTweet = tweet.text;
-  console.log(thisTweet);
+  var thisTime = tweet.time;
+  console.log(thisTweet, thisTime);
 });
 
 
