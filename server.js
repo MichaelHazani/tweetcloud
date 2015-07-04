@@ -1,12 +1,18 @@
 'use strict';
 
 var express = require('express');
+var twitter = require('node-twitter');
 var keys = require('./secrets.js');
 var app = express();
-var port = process.env.PORT || 3000;
+var http = require('http');
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
 
-var Twitter = require('node-twitter');
+var port = process.env.PORT || 3000;
+var tweeting = false;
+
 var bodyparser = require('body-parser');
+var tweetList;
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended: true}));
@@ -23,7 +29,15 @@ app.get('/', function(req, res) {
 
 });
 
-var twitterStreamClient = new Twitter.StreamClient(
+
+app.get('/tweeting', function(req, res) {
+  console.log(tweetList);
+  res.json(tweetList);
+
+});
+
+
+var twitterStreamClient = module.exports = new twitter.StreamClient(
   keys.consumerKey, keys.consumerSecret, keys.token, keys.tokenSecret
   );
 twitterStreamClient.on('close', function() {
@@ -43,9 +57,11 @@ twitterStreamClient.start(['music']);
 // console.log(twitterStreamClient);
 
 twitterStreamClient.on('tweet', function(tweet) {
-  var thisTweet = tweet.text;
-  var thisTime = tweet.time;
-  console.log(thisTweet, thisTime);
+  tweeting = true;
+  // var thisTweet = tweet.text;
+  // var thisTime = tweet.time;
+  console.log(tweet);
+  tweet = tweetList;
 });
 
 
