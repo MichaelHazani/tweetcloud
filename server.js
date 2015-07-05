@@ -7,7 +7,7 @@ var app = express();
 var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
-
+var tweets = [];
 var port = process.env.PORT || 3000;
 var tweeting = false;
 
@@ -20,24 +20,13 @@ app.use(bodyparser.urlencoded({extended: true}));
 
 app.use(express.static('app'));
 
-app.listen(port, function() {
-  console.log('server available at http://localhost:' + port);
-});
+// app.listen(port, function() {
+//   console.log('server available at http://localhost:' + port);
+// });
 
-app.get('/', function(req, res) {
-  res.sendFile('index.html');
+server.listen(process.env.PORT || 8081);
 
-});
-
-
-app.get('/tweeting', function(req, res) {
-  console.log(tweetList);
-  res.json(tweetList);
-
-});
-
-
-var twitterStreamClient = module.exports = new twitter.StreamClient(
+var twitterStreamClient =  new twitter.StreamClient(
   keys.consumerKey, keys.consumerSecret, keys.token, keys.tokenSecret
   );
 twitterStreamClient.on('close', function() {
@@ -60,8 +49,32 @@ twitterStreamClient.on('tweet', function(tweet) {
   tweeting = true;
   // var thisTweet = tweet.text;
   // var thisTime = tweet.time;
-  console.log(tweet);
-  tweet = tweetList;
+  tweets.push("tweet: " + tweet.text);
+  console.log(tweets);
+  //socket.boradcast.emit("twitter-stream", extTweet);
+  //send out to web sockets channel
 });
+
+app.get('/', function(req, res) {
+  res.sendFile('index.html');
+});
+
+io.sockets.on('connection', function (socket) {
+
+  socket.on("start tweets", function() {
+
+  socket.emit('twitter-stream', tweets);
+  });
+socket.emit("connected");
+});
+
+
+// app.get('/tweeting', function(req, res) {
+//   console.log(tweetList);
+//   res.json(tweetList);
+// });
+
+
+
 
 
