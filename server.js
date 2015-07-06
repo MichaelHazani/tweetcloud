@@ -38,22 +38,18 @@ twitterStreamClient.on('end', function() {
 twitterStreamClient.on('error', function(error) {
     console.log('Error: ' + (error.code ? error.code + ' ' + error.message : error.message));
 });
-twitterStreamClient.on('deleteLocation', function(data) {
-    console.log(data);
-});
 
-twitterStreamClient.start(['music']);
-// console.log(twitterStreamClient);
-
-twitterStreamClient.on('tweet', function(tweet) {
-  tweeting = true;
-  // var thisTweet = tweet.text;
-  // var thisTime = tweet.time;
-  tweets.push(tweet.text);
-  console.log(tweets);
-  //socket.boradcast.emit("twitter-stream", extTweet);
+// twitterStreamClient.on('tweet', function(tweet) {
+//   // tweeting = true;
+//   // var thisTweet = tweet.text;
+//   // var thisTime = tweet.time;
+//   tweets.push(tweet.text);
+  // console.log(tweets);
+  // socket.emit("twitter-stream", extTweet);
   //send out to web sockets channel
-});
+
+// });
+
 
 app.get('/', function(req, res) {
   res.sendFile('index.html');
@@ -61,12 +57,35 @@ app.get('/', function(req, res) {
 
 io.sockets.on('connection', function (socket) {
 
-  socket.on("start tweets", function() {
-
-  socket.emit('twitter-stream', tweets);
+socket.on("start tweets", function(data) {
+  twitterStreamClient.start([data]);
+  //socket.emit('twitter-stream', tweets);
   });
-socket.emit("connected");
+
+socket.on('stop', function(){
+twitterStreamClient.stop();
+tweets = [];
 });
+
+twitterStreamClient.on('tweet', function(tweet) {
+  // tweeting = true;
+  // var thisTweet = tweet.text;
+  // var thisTime = tweet.time;
+  // for (var i = 0; i < 100; i++) {
+  //   console.log(i + tweet.text);
+    tweets.push(tweet.text);
+    //console.log(tweets);
+    socket.emit("twitter-stream", tweets);
+    tweets = [];
+    // send out to web sockets channel
+  // }
+    //twitterStreamClient.stop();
+});
+
+});
+
+// socket.emit("connected");
+
 
 
 // app.get('/tweeting', function(req, res) {
