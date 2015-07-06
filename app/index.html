@@ -13,9 +13,47 @@
 <script src="javascript/jquery.min.js"></script>
 <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 <script src="javascript/three.min.js"></script>
-<script src="javascript/main.js"></script>
 </head>
 <body>
+<form id="sendWord">
+<input type="text" id="enterWord">Enter Keyword
+<button id="startTweet">Begin Stream</button>
+<button id="stopTweet">Stop Stream</button>
+</form>
 
+
+<div id="tweetStream"></div>
+
+
+<script>
+  var chosenWord;
+  var socket = io.connect('http://localhost:8081/');
+  var numTweets = 0;
+
+$("#sendWord").submit(function(e){
+  e.preventDefault();
+  chosenWord = $("#enterWord").val();
+  // console.log(chosenWord);
+  socket.emit("start tweets", chosenWord);
+  });
+
+
+  socket.on('twitter-stream', function(data){
+  // console.log(data);
+  setInterval(function(){
+  if (numTweets<49) {
+  numTweets++;
+  $("#tweetStream").append(data);
+  }
+  }, 100);
+
+  });
+
+// socket.on("connected", function(r){
+//   // socket.emit("start tweets");
+// });
+
+
+</script>
 </body>
 </html>

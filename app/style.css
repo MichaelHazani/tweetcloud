@@ -1,0 +1,21 @@
+#tweetStream {
+
+  font-family:"courier new";
+  top-margin:100px;
+  text-align: center;
+
+
+}
+
+#sendWord {
+
+width: 150px;
+margin: auto;
+font-family: "courier new";
+
+
+}
+
+button {
+  width: 130px;
+}

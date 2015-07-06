@@ -49,7 +49,7 @@ twitterStreamClient.on('tweet', function(tweet) {
   tweeting = true;
   // var thisTweet = tweet.text;
   // var thisTime = tweet.time;
-  tweets.push("tweet: " + tweet.text);
+  tweets.push(tweet.text);
   console.log(tweets);
   //socket.boradcast.emit("twitter-stream", extTweet);
   //send out to web sockets channel
