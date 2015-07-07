@@ -37,15 +37,36 @@ scene.add(pointLight);
 controls = new THREE.OrbitControls(camera);
 controls.damping = 0.2;
 
+//canvas experiment
+var myCanvas = document.getElementById("myCanvas");
+var ctx = document.getElementById('myCanvas').getContext('2d');
+ctx.fillStyle="rgb(200,200,0)";
+var text = "Now is the Winter of Our Discontent";
+//ctx.font = "courier new";
+ctx.fillText(text, 30, 128);
+ctx.font = "80px courier new";
+ctx.textAlign = "center";
+var canText1 = new THREE.Texture(myCanvas);
+canText1.needsUpdate = true;
+
 //test cube
   var geometry = new THREE.BoxGeometry( 10, 10, 10 );
+//try canvas
+var canMat = new THREE.MeshBasicMaterial( {map:canText1, side:THREE.DoubleSide});
+//canMat.transparent = true;
+
+
+// reg. material
+
   var material = new THREE.MeshPhongMaterial( {
                                               color: 0xFF0080,
                                               transparent: true,
                                               opacity: 0.5 } );
-  cube = new THREE.Mesh( geometry, material );
+  cube = new THREE.Mesh( geometry, canMat );
   cube.position.set(0,20,0);
   scene.add( cube );
+
+
 
 
 renderer = new THREE.WebGLRenderer( {antialias: true, alpha:true} );
