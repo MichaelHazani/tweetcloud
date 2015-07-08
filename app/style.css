@@ -1,4 +1,4 @@
-
+/*
 #tweetStream {
 
   font-family:"courier new";
@@ -7,21 +7,24 @@
   position: relative;
 
 
-}
+}*/
 
-
-
+html { background-color: black; }
 
 #sendWord {
 /*background-color: 'black';*/
-position: relative;
-width: 100%;
+position: absolute;
+width: 400px;
+height: 400px;
+top:0;
+bottom: 0;
+left: 0;
+right: 0;
 margin: auto;
-top: 300px;
 font-family: "courier new";
 color:white;
 text-align: center;
-  z-index: 2;
+  z-index: 1;
 }
 
 #otherButtons {
@@ -30,15 +33,20 @@ text-align: center;
   /*align-items: center;*/
 /*background-color: 'black';*/
   z-index: 2;
-  position: relative;
-    top: 300px;
+  position: absolute;
+    bottom: 5px;
+  width: 100%;
+  margin: 0 auto;
+  display:none;
 }
 
 
 #three {
   position: absolute;
   z-index: -1;
-  width: 30px;
-  height:30px;
+/*  width: 30px;
+  height:30px;*/
   top: 0px;
 }
+
+

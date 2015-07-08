@@ -8,30 +8,33 @@
 <meta property="og:image" content="images/affected.png">
 <meta property="og:url" content="affected.michaelhazani.net">
 <meta property="og:type" content="art"> -->
-<title>TweetCloud</title>
+<title>Tweetcloud</title>
 <link rel="stylesheet" type="text/css" href="style.css">
-<script src="javascript/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 <script src="javascript/three.min.js"></script>
 <script src="libs/OrbitControls.js"></script>
 <script src="javascript/main.js"></script>
 
 </head>
-<body>
+<body onunload="killSocket()">
 <form id="sendWord">
+  <p>Tweetcloud <br> by Michael Hazani</p>
+  <p><a href="http://michaelhazani.net">
+  Tumblr</a></p>
+    <p><a href="https://github.com/MichaelHazani/tweetcloud">
+  Github</a></p>
+
 Enter Keyword<br><input type="text" id="enterWord"><br>
 <button id="startTweet" style="text-align: center;">Begin Stream</button>
 </form>
 <div id="otherButtons">
-<button id="stopTweet">Stop Stream</button>
-<button id="empty">Erase Tweets</button>
+<button id="stopTweet">Stop Stream</button><br>
+<button id="empty">Destroy Cloud</button>
 </div>
 
 <div id="three"></div>
-<div id="tweetStream"></div>
-<!-- <canvas id = "myCanvas" width="256" height="256"></canvas> -->
-
-
+<!-- <div id="tweetStream"></div> -->
 
 
 <script>
@@ -41,61 +44,90 @@ var chosenWord;
 var socket = io.connect('http://localhost:8081/');
 var numTweets = 0;
 
+//text vars
+var font = ['Georgia', 'Book Antiqua', 'Times New Roman', 'Arial',
+            'Impact', 'Lucida Grande', 'Tahoma', 'Verdana'];
+var size = ['2px ','6px ','10px ','14px ','18px ','22px ','24px ','30px '];
+
+//audio vars
+var pingPath = "./audio/pings/"
+var pingNote = ['B', 'Bhigh', 'C', 'D', 'E', 'F', 'G', 'Ghigh'];
+//Audio listener for the pings
+var listener = new THREE.AudioListener();
+camera.add(listener);
+//focus on keyword field
 $("#enterWord").focus();
 
+//on submit, start sending tweets
 $("#sendWord").submit(function(e){
   e.preventDefault();
   chosenWord = $("#enterWord").val();
   // console.log(chosenWord);
   socket.emit("start tweets", chosenWord);
+  $("#sendWord").blur();
+  $("#sendWord").fadeOut('1000', function(){
+  $("#otherButtons").fadeIn('1000');
   });
+});
 
-
+//on stop button, stop emitting
 $("#stopTweet").click(function(){
     socket.emit('stop');
+    $("#sendWord").fadeIn('1000');
+    numTweets=0;
+
+
 });
 
+//on any refresh, kill connection
+function killSocket(){
+  socket.emit('stop');
+}
+
+//on "destroy cloud", empty tweet array and reload page
 $("#empty").click(function(){
-    console.log("hi");
+    socket.emit('stop');
     $("#tweetStream").empty();
+    location.reload();
 });
 
-  socket.on('twitter-stream', function(data){
 
+//MAIN TWEET FETCH + CREATION LOGIC
+
+socket.on('twitter-stream', function(data){
+
+//let's not fry our CPU
+if (numTweets <= 400) {
+
+  //old test stuff
   //$("#tweetStream").append(data);
   // console.log(data);
 var myCanvas = document.createElement('canvas');
 var ctx = myCanvas.getContext('2d');
-//ctx.clearRect(0,0,myCanvas.width,myCanvas.height);
-
-ctx.font = "30px courier new";
+ctx.font = size[Math.floor(Math.random()*8 - 1)] + font[Math.floor(Math.random()*8 - 1)];
 ctx.fillStyle= "rgb(" +
 Math.floor(Math.random()*256) + "," +
 Math.floor(Math.random()*256) + "," +
 Math.floor(Math.random()*256) + ")";
 var text = data;
-//ctx.font = "courier new";
-// ctx.rect(0,0,256,256);
-// ctx.fillStyle="black";
-// ctx.fill();
-// ctx.fillStyle="pink";
+// myCanvas.width = ctx.measureText(text).width;
 ctx.fillText(text, 30, 128);
 
 ctx.textAlign = "center";
 var canText1 = new THREE.Texture(myCanvas);
+canText1.minFilter = THREE.LinearFilter;
 canText1.needsUpdate = true;
 
 //test plane
-var geometry = new THREE.PlaneGeometry(myCanvas.width, myCanvas.height);
-
+var geometry = new THREE.PlaneBufferGeometry(ctx.measureText(text).width, myCanvas.height);
+// console.log(ctx.measureText(text).width);
 // try canvas
 var canMat = new THREE.MeshBasicMaterial( {map:canText1, side:THREE.DoubleSide});
 canMat.transparent = true;
 
-
 // Make plane
-var max = 400;
-var min = -400;
+var max = 800;
+var min = -800;
 
 var twitterPlane = new THREE.Mesh(geometry, canMat);
 twitterPlane.position.set(Math.floor(Math.random()*(max - min) + min),
@@ -104,9 +136,19 @@ twitterPlane.position.set(Math.floor(Math.random()*(max - min) + min),
 twitterPlane.rotation.set(Math.floor(Math.random()*(max - min) + min),
                        Math.floor(Math.random()*(max - min) + min),
                        Math.floor(Math.random()*(max - min) + min));
+twitterPlane.lookAt(camera.position);
 scene.add(twitterPlane);
-  //Do some threejs stuff here!
-  });
+
+//ping!
+var ping = new THREE.Audio(listener);
+ping.load(pingPath + pingNote[(Math.floor(Math.random() * 8 - 1) + 1)] + '.wav');
+ping.setRefDistance(60);
+ping.audioplay = true;
+console.log(ping);
+twitterPlane.add(ping);
+numTweets++;
+
+  }});
 
 
 
