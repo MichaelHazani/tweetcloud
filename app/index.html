@@ -61,11 +61,50 @@ $("#empty").click(function(){
 });
 
   socket.on('twitter-stream', function(data){
-  // console.log(data);
 
-  $("#tweetStream").append(data);
+  //$("#tweetStream").append(data);
   // console.log(data);
+var myCanvas = document.createElement('canvas');
+var ctx = myCanvas.getContext('2d');
+//ctx.clearRect(0,0,myCanvas.width,myCanvas.height);
 
+ctx.font = "30px courier new";
+ctx.fillStyle= "rgb(" +
+Math.floor(Math.random()*256) + "," +
+Math.floor(Math.random()*256) + "," +
+Math.floor(Math.random()*256) + ")";
+var text = data;
+//ctx.font = "courier new";
+// ctx.rect(0,0,256,256);
+// ctx.fillStyle="black";
+// ctx.fill();
+// ctx.fillStyle="pink";
+ctx.fillText(text, 30, 128);
+
+ctx.textAlign = "center";
+var canText1 = new THREE.Texture(myCanvas);
+canText1.needsUpdate = true;
+
+//test plane
+var geometry = new THREE.PlaneGeometry(myCanvas.width, myCanvas.height);
+
+// try canvas
+var canMat = new THREE.MeshBasicMaterial( {map:canText1, side:THREE.DoubleSide});
+canMat.transparent = true;
+
+
+// Make plane
+var max = 400;
+var min = -400;
+
+var twitterPlane = new THREE.Mesh(geometry, canMat);
+twitterPlane.position.set(Math.floor(Math.random()*(max - min) + min),
+                       Math.floor(Math.random()*(max - min) + min),
+                       Math.floor(Math.random()*(max - min) + min));
+twitterPlane.rotation.set(Math.floor(Math.random()*(max - min) + min),
+                       Math.floor(Math.random()*(max - min) + min),
+                       Math.floor(Math.random()*(max - min) + min));
+scene.add(twitterPlane);
   //Do some threejs stuff here!
   });
 
