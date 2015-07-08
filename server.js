@@ -8,7 +8,7 @@ var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
 var tweets = [];
-var port = process.env.PORT || 3000;
+//var port = process.env.PORT || 3000;
 var tweeting = false;
 
 var bodyparser = require('body-parser');
@@ -24,7 +24,7 @@ app.use(express.static('app'));
 //   console.log('server available at http://localhost:' + port);
 // });
 
-server.listen(process.env.PORT || 8081);
+server.listen(process.env.PORT || 3000);
 
 var twitterStreamClient =  new twitter.StreamClient(
   keys.consumerKey, keys.consumerSecret, keys.token, keys.tokenSecret
