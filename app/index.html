@@ -41,7 +41,7 @@ Enter Keyword<br><input type="text" id="enterWord"><br>
 'use strict';
 $(function(){
 var chosenWord;
-var socket = io.connect(window.location.hostname + ":3000");
+var socket = io.connect('//tweetcloud-hazani.herokuapp.com:80');
 var numTweets = 0;
 
 //text vars
