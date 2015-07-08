@@ -90,16 +90,16 @@ $(document).keydown(function(e) {
 
   switch(e.keyCode) {
     case 83: //down
-      camera.translateZ( + 4 );
+      camera.translateZ( + 50 );
       break;
     case 87: //up
-      camera.translateZ( - 4 );
+      camera.translateZ( - 50 );
       break;
     case 65: //left
-      camera.rotation.x -= 4;
+      camera.rotate.y = 90 * Math.PI / 180;
     break;
     case 68: //right
-      camera.rotation.x += 4;
+      camera.rotation.x += 20*Math.PI/180;
       break;
 
   }
