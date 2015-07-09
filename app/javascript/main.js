@@ -74,7 +74,7 @@ camera.updateProjectionMatrix();
  $(document).mouseup(function(){mouseDown = false; console.log("mouseUp")});
 
 $(document).keydown(function(e) {
-   console.log(e);
+   // console.log(e);
 
   switch(e.keyCode) {
     case 40: //down
