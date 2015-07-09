@@ -17,7 +17,6 @@
 <script src="javascript/main.js"></script>
 
 </head>
-<body onunload="killSocket()">
 <form id="sendWord">
   <p>Tweetcloud <br> <br>a Twitter Livestream visualization <br> <p style="font-size:13px">by Michael Hazani</p>
 
@@ -38,6 +37,12 @@ search the Zeitgeist for:<br><input type="text" id="enterWord"><br>
 
 <script>
 'use strict';
+//on any refresh, kill connection
+window.onbeforeunload = function(e) {
+  console.log("sure");
+    // socket.onclose = function () {}; // disable onclose handler first
+    socket.disconnect();
+};
 $(function(){
 var chosenWord;
 var socket = io.connect('//tweetcloud-hazani.herokuapp.com:80');
@@ -83,10 +88,7 @@ $("#stopTweet").click(function(){
 
 });
 
-//on any refresh, kill connection
-function killSocket(){
-  socket.emit('stop');
-}
+
 
 //on "destroy cloud", empty tweet array and reload page
 $("#empty").click(function(){

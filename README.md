@@ -8,6 +8,6 @@ Using:
 
 Twitter Streaming API via [node-twitter](https://www.npmjs.com/package/node-twitter)
 
-[Websocket.io](https://www.npmjs.com/package/websocket.io)
+[socket.io](https://www.npmjs.com/package/websocket.io)
 
 [threeJS](http://threejs.org)
