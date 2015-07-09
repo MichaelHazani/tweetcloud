@@ -38,10 +38,10 @@ search the Zeitgeist for:<br><input type="text" id="enterWord"><br>
 <script>
 'use strict';
 //on any refresh, kill connection
-window.onbeforeunload = function(e) {
-  console.log("sure");
+window.onload = function() {
+  alert("hi");
     // socket.onclose = function () {}; // disable onclose handler first
-    socket.disconnect();
+    socket.emit('disconnect');
 };
 $(function(){
 var chosenWord;
@@ -82,6 +82,7 @@ $("#sendWord").submit(function(e){
 //on stop button, stop emitting
 $("#stopTweet").click(function(){
     socket.emit('stop');
+    socket.emit('disconnect');
     $("#sendWord").fadeIn('1000');
     numTweets=0;
 
@@ -93,6 +94,8 @@ $("#stopTweet").click(function(){
 //on "destroy cloud", empty tweet array and reload page
 $("#empty").click(function(){
     socket.emit('stop');
+    socket.emit('disconnect');
+
     $("#tweetStream").empty();
     location.reload();
 });

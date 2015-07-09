@@ -66,9 +66,12 @@ socket.on('stop', function(){
 twitterStreamClient.stop();
 tweets = [];
 socket.disconnect();
-
 });
 
+socket.on('disconnect', function(){
+socket.disconnect();
+socket.close();
+});
 
 
 twitterStreamClient.on('tweet', function(tweet) {
