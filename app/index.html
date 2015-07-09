@@ -19,12 +19,9 @@
 </head>
 <body onunload="killSocket()">
 <form id="sendWord">
-  <p>Tweetcloud <br> by Michael Hazani</p>
-  <p><a href="http://michaelhazani.net">
-  Tumblr</a></p>
-    <p><a href="https://github.com/MichaelHazani/tweetcloud">
-  Github</a></p>
+  <p>Tweetcloud <br> <br>a Twitter Livestream visualization <br> <p style="font-size:13px">by Michael Hazani</p>
 
+<br><br>
 Enter Keyword<br><input type="text" id="enterWord"><br>
 <button id="startTweet" style="text-align: center;">Begin Stream</button>
 </form>
@@ -35,7 +32,9 @@ Enter Keyword<br><input type="text" id="enterWord"><br>
 
 <div id="three"></div>
 <!-- <div id="tweetStream"></div> -->
-
+<div id="bottom">
+<p><a href="http://michaelhazani.net" target="_blank">
+  Tumblr</a>//<a href="https://github.com/MichaelHazani/tweetcloud" target="_blank">Github</a></p></div>
 
 <script>
 'use strict';
@@ -55,8 +54,12 @@ var pingNote = ['B', 'Bhigh', 'C', 'D', 'E', 'F', 'G', 'Ghigh'];
 //Audio listener for the pings
 var listener = new THREE.AudioListener();
 camera.add(listener);
-//focus on keyword field
+
+//fade in and focus on keyword field
+$("#sendWord").fadeIn(2000);
+$("#bottom").fadeIn(2000);
 $("#enterWord").focus();
+
 
 //on submit, start sending tweets
 $("#sendWord").submit(function(e){
@@ -65,8 +68,9 @@ $("#sendWord").submit(function(e){
   // console.log(chosenWord);
   socket.emit("start tweets", chosenWord);
   $("#sendWord").blur();
-  $("#sendWord").fadeOut('1000', function(){
-  $("#otherButtons").fadeIn('1000');
+  $("#bottom").fadeOut(2000);
+  $("#sendWord").fadeOut(2000, function(){
+  $("#otherButtons").fadeIn(2000);
   });
 });
 
