@@ -70,7 +70,7 @@ socket.disconnect();
 
 socket.on('disconnect', function(){
 socket.disconnect();
-socket.close();
+// socket.close();
 });
 
 
