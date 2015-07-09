@@ -82,8 +82,8 @@ camera.updateProjectionMatrix();
 // }
 
 //don't confuse shmancy auto-move with OrbitControls
-// $(document).mousedown(function(){mouseDown = true; console.log("mouseDown")});
-// $(document).mouseup(function(){mouseDown = false; console.log("mouseUp")});
+ $(document).mousedown(function(){mouseDown = true; console.log("mouseDown")});
+ $(document).mouseup(function(){mouseDown = false; console.log("mouseUp")});
 
 $(document).keydown(function(e) {
    console.log(e);
@@ -124,8 +124,9 @@ for (var i = 0; i < scene.children.length; i ++) {
 
       object.rotation.y = time * (i < 4 ? i + 1 : - (i + 1));
   }
-//update OrbitControls
-controls.update();
+//update OrbitControls only if mouse clicked
+if (mouseDown) {controls.update();}
+
 renderer.render(scene, camera);
 
 
