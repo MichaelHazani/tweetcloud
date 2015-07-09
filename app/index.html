@@ -14,6 +14,8 @@
 <script src="https://cdn.socket.io/socket.io-1.3.5.js"></script>
 <script src="javascript/three.min.js"></script>
 <script src="libs/OrbitControls.js"></script>
+<script src="libs/TweenLite.min.js"></script>
+
 <script src="javascript/main.js"></script>
 
 </head>
@@ -60,7 +62,7 @@ scene.add(pivot);
     var skyGeometry = new THREE.SphereGeometry(5000,50,50);
     var texture;
     texture = THREE.ImageUtils.loadTexture('./images/sky3.jpg');
-
+    texture.minFilter = THREE.LinearFilter;
     var skyMaterial = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide });
     var _skyBox = new THREE.Mesh( skyGeometry, skyMaterial );
     _skyBox.material.fog = false;
@@ -130,7 +132,7 @@ $("#empty").click(function(){
 socket.on('twitter-stream', function(data){
 
 //let's not fry our CPU
-if (numTweets <= 1000) {
+if (numTweets <= 50000) {
 
   //old test stuff
   //$("#tweetStream").append(data);
@@ -157,7 +159,7 @@ canText1.needsUpdate = true;
 var geometry = new THREE.PlaneBufferGeometry(ctx.measureText(text).width, myCanvas.height);
 // console.log(ctx.measureText(text).width);
 // try canvas
-var canMat = new THREE.MeshBasicMaterial( {map:canText1, side:THREE.DoubleSide});
+var canMat = new THREE.MeshBasicMaterial( {map:canText1, side:THREE.DoubleSide, opacity: 0});
 canMat.transparent = true;
 
 // Make plane
@@ -173,6 +175,7 @@ twitterPlane.rotation.set(Math.floor(Math.random()*(max - min) + min),
                        Math.floor(Math.random()*(max - min) + min));
 twitterPlane.lookAt(camera.position);
 pivot.add(twitterPlane);
+TweenLite.to(twitterPlane.material, 1, {opacity: 1});
 
 //ping!
 var ping = new THREE.Audio(listener);
