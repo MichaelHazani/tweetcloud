@@ -1,2 +1,13 @@
 # tweetcloud
-a Three.js based twitterstream visualization experiment
+a Node-based twitter livestream WebGL visualization experiment
+
+Currently live at: [tweetcloud.michaelhazani.net](http://tweetcloud.michaelhazani.net)
+
+
+Using:
+
+Twitter Streaming API via [node-twitter](https://www.npmjs.com/package/node-twitter)
+
+[Websocket.io](https://www.npmjs.com/package/websocket.io)
+
+[threeJS](http://threejs.org)

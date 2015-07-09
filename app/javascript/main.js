@@ -22,7 +22,7 @@ function init() {
 
 scene = new THREE.Scene();
 camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 10000 );
-camera.position.z = -20;
+camera.position.z = -200;
 scene.add(camera);
 
 
@@ -111,10 +111,10 @@ var time = Date.now() * 0.0000005;
 requestAnimationFrame(render);
 
 
-//mouse-sensitive cam movement
-// camera.position.x += (mouseX - camera.position.x) * 0.09;
-// camera.position.y += (- mouseY - camera.position.y) * 0.09;
-// camera.lookAt(scene.position);
+//rotate camera
+camera.position.x = Math.cos(time) * 1000;
+camera.position.y = Math.cos(time) * 1000;
+camera.lookAt(scene.position);
 
 
 //organic rotation
