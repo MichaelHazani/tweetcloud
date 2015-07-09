@@ -47,6 +47,9 @@ $(function(){
 var chosenWord;
 var socket = io.connect('//tweetcloud-hazani.herokuapp.com:80', {'forceNew': true});
 var numTweets = 0;
+var pivot = new THREE.Object3D();
+pivot.position.set(0,0,0);
+scene.add(pivot);
 
 //text vars
 var font = ['Georgia', 'Book Antiqua', 'Times New Roman', 'Arial',
@@ -146,7 +149,7 @@ twitterPlane.rotation.set(Math.floor(Math.random()*(max - min) + min),
                        Math.floor(Math.random()*(max - min) + min),
                        Math.floor(Math.random()*(max - min) + min));
 twitterPlane.lookAt(camera.position);
-scene.add(twitterPlane);
+pivot.add(twitterPlane);
 
 //ping!
 var ping = new THREE.Audio(listener);

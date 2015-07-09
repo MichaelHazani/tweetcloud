@@ -22,7 +22,7 @@ function init() {
 
 scene = new THREE.Scene();
 camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 10000 );
-camera.position.z = -200;
+camera.position.z = -1000;
 scene.add(camera);
 
 
@@ -107,13 +107,15 @@ $(document).keydown(function(e) {
 });
 
 function render() {
-var time = Date.now() * 0.0000005;
+var time = Date.now() * 0.0005;
 requestAnimationFrame(render);
 
 
 //rotate camera
-camera.position.x = Math.cos(time) * 1000;
-camera.position.y = Math.cos(time) * 1000;
+// camera.position.x = Math.cos(time) * 1000;
+// camera.position.y = Math.sin(time) * 1000;
+// camera.position.z = Math.cos(time) * 1000;
+// console.log(camera.position.x);
 camera.lookAt(scene.position);
 
 
@@ -122,10 +124,12 @@ for (var i = 0; i < scene.children.length; i ++) {
 
     var object = scene.children[i];
 
-      object.rotation.y = time * (i < 4 ? i + 1 : - (i + 1));
+    object.rotation.y = time / 10;
   }
 //update OrbitControls only if mouse clicked
-if (mouseDown) {controls.update();}
+// if (mouseDown) {
+  controls.update();
+// }
 
 renderer.render(scene, camera);
 
