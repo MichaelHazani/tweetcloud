@@ -69,6 +69,8 @@ socket.disconnect();
 });
 
 socket.on('disconnect', function(){
+twitterStreamClient.stop();
+tweets = [];
 socket.disconnect();
 // socket.close();
 });

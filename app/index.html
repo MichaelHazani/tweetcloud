@@ -38,14 +38,14 @@ search the Zeitgeist for:<br><input type="text" id="enterWord"><br>
 <script>
 'use strict';
 //on any refresh, kill connection
-window.onload = function() {
-  alert("hi");
-    // socket.onclose = function () {}; // disable onclose handler first
-    socket.emit('disconnect');
-};
+// window.onload = function() {
+//   alert("hi");
+//     // socket.onclose = function () {}; // disable onclose handler first
+//     socket.emit('disconnect');
+// };
 $(function(){
 var chosenWord;
-var socket = io.connect('//tweetcloud-hazani.herokuapp.com:80');
+var socket = io.connect('//tweetcloud-hazani.herokuapp.com:80', {'forceNew': true});
 var numTweets = 0;
 
 //text vars
