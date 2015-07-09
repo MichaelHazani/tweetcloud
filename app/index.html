@@ -25,7 +25,7 @@ search the Zeitgeist for:<br><input type="text" id="enterWord"><br>
 <button id="startTweet" style="text-align: center; font-family: 'courier new'; ">Begin Stream</button>
 </form>
 <div id="otherButtons">
-<button id="stopTweet" style="font-family: 'courier new'; ">Stop Stream</button><br>
+<span><button id="stopTweet" style="font-family: 'courier new'; ">Stop Stream</button></span>
 <button id="empty" style="font-family: 'courier new'; ">Destroy Cloud</button>
 </div>
 
@@ -39,6 +39,7 @@ Click+drag to change angle <br><br><br>Scroll to zoom
 <br><br><br>
 Escape to quit
 </div>
+
 <script>
 'use strict';
 //on any refresh, kill connection
@@ -95,7 +96,7 @@ $("#sendWord").submit(function(e){
   $("#sendWord").blur();
   $("#bottom").fadeOut(2000);
   $("#sendWord").fadeOut(2000, function(){
-  $("#otherButtons").fadeIn(2000);
+  // $("#otherButtons").fadeIn(2000);
   $("#inst").fadeIn(2000, function(){
     $("#inst").fadeOut(4000);
   });
@@ -142,8 +143,10 @@ Math.floor(Math.random()*256) + "," +
 Math.floor(Math.random()*256) + "," +
 Math.floor(Math.random()*256) + ")";
 var text = data;
-// myCanvas.width = ctx.measureText(text).width;
-ctx.fillText(text, 30, 128);
+console.log(ctx.measureText(text).width);
+ctx.width = Math.ceil(ctx.measureText(text).width);
+// ctx.width = ctx.measureText(text).width;
+ctx.fillText(text, 0, 20);
 
 ctx.textAlign = "center";
 var canText1 = new THREE.Texture(myCanvas);
