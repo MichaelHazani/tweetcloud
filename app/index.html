@@ -57,6 +57,16 @@ var pivot = new THREE.Object3D();
 pivot.position.set(0,0,0);
 scene.add(pivot);
 
+
+//resize helper
+
+function onResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+
+}
 //skybox
     var skyGeometry = new THREE.SphereGeometry(5000,50,50);
     var texture;
@@ -131,23 +141,31 @@ $("#empty").click(function(){
 socket.on('twitter-stream', function(data){
 
 //let's not fry our CPU
-if (numTweets <= 50000) {
+if (numTweets <= 5000) {
 
   //old test stuff
   //$("#tweetStream").append(data);
   // console.log(data);
+
+//create canvas
 var myCanvas = document.createElement('canvas');
 var ctx = myCanvas.getContext('2d');
+
+//define random font
 ctx.font = size[Math.floor(Math.random()*8 - 1)] + font[Math.floor(Math.random()*8 - 1)];
 ctx.fillStyle= "rgb(" +
 Math.floor(Math.random()*256) + "," +
 Math.floor(Math.random()*256) + "," +
 Math.floor(Math.random()*256) + ")";
 var text = data;
+
+//test that tweets are complete
+// console.log(text);
+
 // console.log(ctx.measureText(text).width);
-ctx.width = Math.ceil(ctx.measureText(text).width);
-// ctx.width = ctx.measureText(text).width;
-ctx.fillText(text, 0, 20);
+// ctx.width = Math.ceil(ctx.measureText(text).width);
+// console.log(ctx.width);
+ctx.fillText(text, 0, 20, 300);
 
 ctx.textAlign = "center";
 var canText1 = new THREE.Texture(myCanvas);
@@ -155,7 +173,7 @@ canText1.minFilter = THREE.LinearFilter;
 canText1.needsUpdate = true;
 
 //test plane
-var geometry = new THREE.PlaneBufferGeometry(ctx.measureText(text).width, myCanvas.height);
+var geometry = new THREE.PlaneBufferGeometry(Math.ceil(ctx.measureText(text).width), myCanvas.height);
 // console.log(ctx.measureText(text).width);
 // try canvas
 var canMat = new THREE.MeshBasicMaterial( {map:canText1, side:THREE.DoubleSide, opacity: 0});
