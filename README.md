@@ -8,8 +8,8 @@ More info on [Tumblr](http://michaelhazani.net/post/123613911474/3-tweetcloud)
 
 Using:
 
-Twitter Streaming API via [node-twitter](https://www.npmjs.com/package/node-twitter)
+Twitter Streaming API via [node-twitter](http://www.npmjs.com/package/node-twitter)
 
-[socket.io](https://www.npmjs.com/package/websocket.io)
+[socket.io](http://www.npmjs.com/package/websocket.io)
 
 [threeJS](http://threejs.org)
