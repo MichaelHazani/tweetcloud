@@ -4,6 +4,7 @@ var express = require('express');
 var twitter = require('node-twitter');
 var keys = require('./secrets.js');
 var app = express();
+var compress = require('compression');
 var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);
@@ -14,7 +15,7 @@ var tweeting = false;
 var bodyparser = require('body-parser');
 var tweetList;
 
-app.use(express.compress());
+app.use(compress());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({
     extended: true
