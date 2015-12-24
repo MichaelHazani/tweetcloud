@@ -14,6 +14,7 @@ var tweeting = false;
 var bodyparser = require('body-parser');
 var tweetList;
 
+app.use(express.compress());
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({
     extended: true
